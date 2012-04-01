@@ -9,3 +9,10 @@ tmp/
 # bundler state
 /.bundle
 /vendor/bundle/
+
+# Ignore other unneeded files.
+doc/
+*.swp
+*~
+.project
+.DS_Store
