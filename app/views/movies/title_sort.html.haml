@@ -1,0 +1,19 @@
+-#  This file is app/views/movies/title_sort.html.haml
+%h1 All Movies
+
+%table#movies
+  %thead
+    %tr
+      %th  Movie Title
+      %th   Rating
+      %th  <a id="release_date_header" href="index_sort_release" >Release Date</a>
+      %th More Info
+  %tbody
+    - @movies.index_sort_title.each do |movie|
+      %tr
+        %td= movie.title 
+        %td= movie.rating
+        %td= movie.release_date
+        %td= link_to "More about #{movie.title}", movie_path(movie)
+
+= link_to 'Add new movie', new_movie_path

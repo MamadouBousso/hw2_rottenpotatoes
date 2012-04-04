@@ -7,7 +7,11 @@ class MoviesController < ApplicationController
   end
 
   def index
+      @sort=params['sort']
     @movies = Movie.all
+    #@movies = Movies.scoped
+    @movies = Movie.find(:all, :order=>"title ASC")  if @sort == 'title'
+     @movies = Movie.find(:all, :order=>"release_date ASC")  if @sort == 'release_date'
   end
 
   def new
@@ -36,6 +40,13 @@ class MoviesController < ApplicationController
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
+  end
+  def index_sort_title
+    @movies = Movie.find(:all, :order=>"title ASC")   if params['sort'] == 'title'
+  end
+  def index_sort_release
+    @movies = Movie.find(:all, :order=>"rating DESC")    if params['sort'] == 'release_date'
+
   end
 
 end
