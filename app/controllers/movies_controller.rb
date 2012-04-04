@@ -19,7 +19,7 @@ class MoviesController < ApplicationController
       @movies = Movie.find(:all,:conditions=>["rating == ? ", @selected.keys]) if @selected != nil
       session[:sort] = @sort
       session[:selected] = @selected
-        redirect_to root_url
+        
    end
 
   def new
