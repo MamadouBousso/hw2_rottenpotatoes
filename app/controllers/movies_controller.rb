@@ -8,6 +8,7 @@ class MoviesController < ApplicationController
   end
 
   def index
+
       @sort=params['sort']
       @all_ratings = Movie.Rate
        @selected = params['ratings']
@@ -16,6 +17,9 @@ class MoviesController < ApplicationController
     @movies = Movie.find(:all, :order=>"title ASC")  if @sort == 'title'
      @movies = Movie.find(:all, :order=>"release_date ASC")  if @sort == 'release_date'
       @movies = Movie.find(:all,:conditions=>["rating == ? ", @selected.keys]) if @selected != nil
+      session[:sort] = @sort
+      session[:selected] = @selected
+        redirect_to root_url
    end
 
   def new
@@ -25,6 +29,7 @@ class MoviesController < ApplicationController
   def create
     @movie = Movie.create!(params[:movie])
     flash[:notice] = "#{@movie.title} was successfully created."
+    session[:movie] = @movie
     redirect_to movies_path
   end
 
@@ -36,6 +41,7 @@ class MoviesController < ApplicationController
     @movie = Movie.find params[:id]
     @movie.update_attributes!(params[:movie])
     flash[:notice] = "#{@movie.title} was successfully updated."
+    session[:movie] = @movie
     redirect_to movie_path(@movie)
   end
 
@@ -45,12 +51,6 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
-  def index_sort_title
-    @movies = Movie.find(:all, :order=>"title ASC")   if params['sort'] == 'title'
-  end
-  def index_sort_release
-    @movies = Movie.find(:all, :order=>"rating DESC")    if params['sort'] == 'release_date'
 
-  end
 
 end
